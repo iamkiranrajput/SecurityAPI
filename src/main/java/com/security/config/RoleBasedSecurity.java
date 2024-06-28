@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -42,18 +44,16 @@ public class RoleBasedSecurity{
 
    @Bean
     public UserDetailsService userDetailsService(){
-        UserDetails user1= User.withUsername("user").password("{noop}user").roles("USER").build();
+        UserDetails user1= User.withUsername("user").password( passwordEncoder().encode("user")).roles("USER").build();
 
 
 
-        UserDetails admin=User.withUsername("admin").password("{noop}admin").roles("ADMIN").build();
-        UserDetails admin2=User.withUsername("admin2").password("{noop}admin2").roles("ADMIN").build();
+        UserDetails admin=User.withUsername("admin").password(passwordEncoder().encode("admin")).roles("ADMIN").build();
 
 
         JdbcUserDetailsManager userDetailsManager=new JdbcUserDetailsManager(dataSource);
 
         userDetailsManager.createUser(user1);
-        userDetailsManager.createUser(admin2);
         userDetailsManager.createUser(admin);
         return userDetailsManager;
 
@@ -61,5 +61,8 @@ public class RoleBasedSecurity{
         //        return new InMemoryUserDetailsManager(user1,admin,admin2);
     }
 
-
+            @Bean
+            public PasswordEncoder passwordEncoder(){
+            return new BCryptPasswordEncoder();
+            }
 }
