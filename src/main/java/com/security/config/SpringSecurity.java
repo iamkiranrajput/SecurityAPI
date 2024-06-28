@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -31,8 +33,11 @@ public class SpringSecurity{
 
 	@Bean
 	public UserDetailsService userDetailsService(){
+		UserDetails user1= User.withUsername("user2").password("{noop}password2").roles("USER").build();
 
-		return new InMemoryUserDetailsManager(user1,admin);
+		UserDetails admin=User.withUsername("admin").password("{noop}admin").roles("ADMIN").build();
+		UserDetails admin2=User.withUsername("admin2").password("{noop}admin2").roles("ADMIN").build();
+		return new InMemoryUserDetailsManager(user1,admin,admin2);
 	}
 
 
