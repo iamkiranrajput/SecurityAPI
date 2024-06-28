@@ -13,12 +13,12 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-@Configuration		//this annotation this calls provide configuration of application 
-@EnableWebSecurity  //to enable web security features in the application 
+//@Configuration		//this annotation this calls provide configuration of application
+//@EnableWebSecurity  //to enable web security features in the application
+
 public class SpringSecurity{
-	@Bean
+//	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		
 		http.authorizeHttpRequests((request)->request.anyRequest().authenticated());  
 		//any request will be authenticated 
 		http.sessionManagement(session
@@ -31,7 +31,7 @@ public class SpringSecurity{
 	}
 
 
-	@Bean
+//	@Bean
 	public UserDetailsService userDetailsService(){
 		UserDetails user1= User.withUsername("user2").password("{noop}password2").roles("USER").build();
 
